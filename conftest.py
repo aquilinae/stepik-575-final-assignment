@@ -17,7 +17,7 @@ def pytest_addoption(parser):
 
 
 @pytest.fixture(scope='function')
-def driver(request):
+def browser(request):
     _browser = request.config.getoption('browser').lower()
     _language = request.config.getoption('language')
     _is_headless = request.config.getoption('headless')
@@ -25,15 +25,15 @@ def driver(request):
         __chrome_options = ChromeOptions()
         __chrome_options.add_experimental_option('prefs', {'intl.accept_languages': _language})
         __chrome_options.headless = _is_headless
-        driver = webdriver.Chrome(options=__chrome_options)
+        browser = webdriver.Chrome(options=__chrome_options)
     elif _browser == 'firefox':
         __firefox_options = FirefoxOptions()
         __firefox_options.set_preference('intl.accept_languages', _language)
         __firefox_options.headless = _is_headless
-        driver = webdriver.Firefox(options=__firefox_options)
+        browser = webdriver.Firefox(options=__firefox_options)
     else:
         raise pytest.UsageError('Browser should be Chrome (default) or Firefox')
 
-    yield driver
+    yield browser
 
-    driver.quit()
+    browser.quit()
