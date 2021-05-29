@@ -34,6 +34,9 @@ def browser(request):
     else:
         raise pytest.UsageError('Browser should be Chrome (default) or Firefox')
 
+    # Add sent language to browser object for using in tests
+    browser.language = _language
+
     yield browser
 
     browser.quit()
