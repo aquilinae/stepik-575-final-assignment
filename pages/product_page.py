@@ -24,3 +24,9 @@ class ProductPage(BasePage):
             assert success_msg == f'{product_name} has been added to your basket.', 'Wrong success message'
         if product_price:
             assert f'Your basket total is now {product_price}' in total_price_msg, 'Wrong price in basket'
+
+    def should_not_be_success_message(self):
+        assert self.is_not_element_present(*ProductPageLocators.SUCCESS_ADD_MSG), 'Success message is presented'
+
+    def should_fade_success_message(self):
+        assert self.is_disappeared(*ProductPageLocators.SUCCESS_ADD_MSG), 'Success message is still present'
