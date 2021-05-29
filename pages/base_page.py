@@ -12,7 +12,7 @@ from pages.locators import BasePageLocators
 
 
 class BasePage:
-    def __init__(self, browser, url, timeout=0):
+    def __init__(self, browser, url=None, timeout=0):
         self.browser = browser
         self.url = url
         self.browser.implicitly_wait(timeout)
