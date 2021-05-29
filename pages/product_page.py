@@ -15,7 +15,7 @@ class ProductPage(BasePage):
     def add_to_basket(self):
         self.browser.find_element(*ProductPageLocators.ADD_TO_BASKET_BTN).click()
 
-    def check_added_to_basket(self, product_name=None, product_price=None):
+    def should_be_added_to_basket(self, product_name=None, product_price=None):
         success_msg = self.browser.find_element(*ProductPageLocators.SUCCESS_ADD_MSG).text
         total_price_msg = self.browser.find_element(*ProductPageLocators.BASKET_PRICE_MSG).text
         assert success_msg, 'No product adding success message'

@@ -25,4 +25,4 @@ def test_guest_can_add_product_to_basket(browser, link):
     page.open()
     page.add_to_basket()
     page.solve_quiz_and_get_code()
-    page.check_added_to_basket(product_name=page.product_name, product_price=page.product_price)
+    page.should_be_added_to_basket(product_name=page.product_name, product_price=page.product_price)
