@@ -11,10 +11,13 @@ from selenium.webdriver.support.wait import WebDriverWait
 from pages.locators import BasePageLocators
 
 
+BASE_URL = 'http://selenium1py.pythonanywhere.com'
+
+
 class BasePage:
     def __init__(self, browser, url=None, timeout=0):
         self.browser = browser
-        self.url = url
+        self.url = url if url else BASE_URL
         self.browser.implicitly_wait(timeout)
 
     def open(self):
