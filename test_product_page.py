@@ -1,6 +1,10 @@
+import hashlib
+import time
+
 import pytest
 
 from pages.basket_page import BasketPage
+from pages.login_page import LoginPage
 from pages.product_page import ProductPage
 
 LINK = 'http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/'
@@ -70,3 +74,28 @@ def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
     page.go_to_basket()
     page = BasketPage(browser, browser.current_url)
     page.should_be_empty()
+
+
+class TestUserAddToBasketFromProductPage:
+
+    @pytest.fixture(scope='function', autouse=True)
+    def setup(self, browser):
+        page = LoginPage(browser)
+        page.open()
+        email = str(time.time()) + '@fakemail.org'
+        page.register_new_user(
+            email=email,
+            password=hashlib.md5(email.encode('utf-8')).hexdigest()
+        )
+        page.should_be_authorized_user()
+
+    def test_user_cant_see_success_message(self, browser):
+        page = ProductPage(browser, LINK)
+        page.open()
+        page.should_not_be_success_message()
+
+    def test_user_can_add_product_to_basket(self, browser):
+        page = ProductPage(browser, LINK)
+        page.open()
+        page.add_to_basket()
+        page.should_be_added_to_basket(product_name=page.product_name, product_price=page.product_price)
